@@ -451,7 +451,19 @@ export default function Home() {
         </div>
       </footer>
 
-      <a className="floating-whatsapp" href={`https://wa.me/${PHONE}`} target="_blank" rel="noreferrer" aria-label="WhatsApp">⌁</a>
+      <a
+        className="floating-whatsapp"
+        href={`https://wa.me/${PHONE}`}
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Open WhatsApp chat with Boyan"
+        title="WhatsApp"
+      >
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <path className="whatsapp-bubble" d="M16 3.5A12.4 12.4 0 0 0 5.4 22.3L4 28l5.9-1.5A12.4 12.4 0 1 0 16 3.5Z" />
+          <path className="whatsapp-phone" d="M10.8 8.8c.4-.5.9-.7 1.4-.4l2.3 1.2c.5.2.7.8.5 1.3l-1.1 2.2c-.2.4-.1.9.2 1.2l3.6 3.6c.3.3.8.4 1.2.2l2.2-1.1c.5-.2 1.1 0 1.3.5l1.2 2.3c.3.5.1 1.1-.4 1.4l-1.7 1c-1.2.7-2.7.8-3.9.2a18.6 18.6 0 0 1-8-8c-.6-1.3-.5-2.7.2-3.9l1-1.7Z" />
+        </svg>
+      </a>
     </main>
   );
 }
