@@ -97,7 +97,7 @@ const content = {
     direct: "או התקשרו ישירות",
     formMessage: "שלום בויאן, אשמח לתכנן טיול פרטי בבולגריה.",
     footer: "טיולים פרטיים מבולגריה עם מדריך דובר עברית",
-    photo: "צילום: Adam Jones / Wikimedia Commons",
+    photo: "צילום: karel291 / Wikimedia Commons · CC BY 3.0",
   },
   bg: {
     dir: "ltr" as const,
@@ -151,7 +151,7 @@ const content = {
     direct: "Или се обадете директно",
     formMessage: "Здравейте, Боян. Искам да планирам частен тур в България.",
     footer: "Частни турове в България с гид на иврит",
-    photo: "Снимка: Adam Jones / Wikimedia Commons",
+    photo: "Снимка: karel291 / Wikimedia Commons · CC BY 3.0",
   },
   en: {
     dir: "ltr" as const,
@@ -202,7 +202,7 @@ const content = {
     direct: "Or call directly",
     formMessage: "Hello Boyan, I would like to plan a private tour in Bulgaria.",
     footer: "Private tours in Bulgaria with a Hebrew-speaking guide",
-    photo: "Photo: Adam Jones / Wikimedia Commons",
+    photo: "Photo: karel291 / Wikimedia Commons · CC BY 3.0",
   },
 };
 
@@ -274,6 +274,15 @@ export default function Home() {
       </header>
 
       <section className="hero" id="top">
+        <img
+          className="hero-image"
+          src="/sofia-synagogue-hero-v2.webp"
+          alt=""
+          width="1920"
+          height="1080"
+          fetchPriority="high"
+          aria-hidden="true"
+        />
         <div className="hero-shade" />
         <div className="hero-content page-width">
           <p className="eyebrow light">{copy.eyebrow}</p>
@@ -290,7 +299,7 @@ export default function Home() {
           </div>
           <a className="scroll-cue" href="#tours"><span>{copy.scroll}</span><b>↓</b></a>
         </div>
-        <a className="photo-credit" href="https://commons.wikimedia.org/wiki/File:Facade_of_Sofia_Synagogue_-_Sofia_-_Bulgaria_(42849224112).jpg" target="_blank" rel="noreferrer">{copy.photo}</a>
+        <a className="photo-credit" href="https://commons.wikimedia.org/wiki/File:Sofia_Center,_1000_Sofia,_Bulgaria_-_panoramio_(17).jpg" target="_blank" rel="noreferrer">{copy.photo}</a>
       </section>
 
       <section className="section tours-section" id="tours">
