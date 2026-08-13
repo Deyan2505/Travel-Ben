@@ -60,6 +60,7 @@ const content = {
     aboutTitle: "מקומי בבולגריה. מרגיש בבית בעברית.",
     aboutText:
       "אני בויאן אריה. חייתי בישראל, אני דובר עברית ומכיר מקרוב את הראש, הקצב והצרכים של המטייל הישראלי. המטרה שלי פשוטה: שתראו את בולגריה בנוחות, בביטחון ובאווירה טובה.",
+    guidePhotoAlt: "בויאן אריה, המדריך שלכם בבולגריה",
     aboutQuote: "לא עוד טיול לפי שעון — יום שנבנה סביבכם.",
     facts: [
       ["עברית", "תקשורת טבעית וברורה"],
@@ -131,6 +132,7 @@ const content = {
     aboutTitle: "Местен в България. Естествено общуване на иврит.",
     aboutText:
       "Казвам се Боян Арие. Живял съм в Израел, говоря отличен иврит и познавам манталитета, ритъма и нуждите на израелския турист. Искам да видите България удобно, спокойно и в приятна атмосфера.",
+    guidePhotoAlt: "Боян Арие, вашият гид в България",
     aboutQuote: "Не програма по часовник, а ден, създаден около вас.",
     facts: [["Иврит", "Естествено общуване"], ["До 7 места", "Citroën C4 Picasso"], ["До 120 км", "Маршрути от София"], ["100% частно", "Само вашата компания"]],
     carTitle: "Пътуването е част от преживяването",
@@ -182,6 +184,7 @@ const content = {
     aboutKicker: "Your guide",
     aboutTitle: "Local in Bulgaria. At home in Hebrew.",
     aboutText: "I’m Boyan Arie. I have lived in Israel, speak excellent Hebrew and understand the pace, mindset and needs of Israeli travellers. My goal is simple: help you experience Bulgaria comfortably and in good company.",
+    guidePhotoAlt: "Boyan Arie, your private guide in Bulgaria",
     aboutQuote: "Not a tour ruled by the clock — a day designed around you.",
     facts: [["Hebrew", "Natural communication"], ["Up to 7 seats", "Citroën C4 Picasso"], ["Up to 120 km", "Routes from Sofia"], ["100% private", "Only your party"]],
     carTitle: "The journey is part of the experience",
@@ -330,7 +333,14 @@ export default function Home() {
       <section className="about-section" id="about">
         <div className="page-width about-grid">
           <div className="guide-visual">
-            <div className="guide-monogram"><span>BA</span><small>BOYAN ARIE</small></div>
+            <img
+              className="guide-photo"
+              src="/boyan-arie.webp"
+              alt={copy.guidePhotoAlt}
+              width="1400"
+              height="1400"
+              loading="lazy"
+            />
             <div className="route-line"><span>SOFIA</span><i /><span>120 KM</span></div>
           </div>
           <div className="guide-copy">
