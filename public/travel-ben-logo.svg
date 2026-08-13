@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="330" height="96" viewBox="0 0 330 96" aria-label="Travel Ben">
+  <g transform="translate(2 3) scale(.27)">
+    <circle cx="185" cy="72" r="38" fill="#D99B4A"/>
+    <path d="M77 116L139 52L184 96L227 49L286 112" fill="none" stroke="#FBF8F1" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M84 112V286M84 112H151C202 112 229 132 229 165C229 191 212 207 188 214C220 223 240 244 240 273C240 288 236 300 227 310" fill="none" stroke="#FBF8F1" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M171 90C128 121 125 147 168 168C211 190 214 218 162 275" fill="none" stroke="#163D34" stroke-width="26" stroke-linecap="round"/>
+    <path d="M171 90C128 121 125 147 168 168C211 190 214 218 162 275" fill="none" stroke="#D99B4A" stroke-width="12" stroke-linecap="round"/>
+  </g>
+  <text x="98" y="52" fill="#FBF8F1" font-family="Georgia, 'Times New Roman', serif" font-size="29" font-weight="600" letter-spacing="2">TRAVEL</text>
+  <text x="236" y="52" fill="#D99B4A" font-family="Georgia, 'Times New Roman', serif" font-size="29" font-weight="600" letter-spacing="2">BEN</text>
+  <text x="100" y="72" fill="#C8D2CC" font-family="Arial, Helvetica, sans-serif" font-size="7" font-weight="700" letter-spacing="4">PRIVATE BULGARIA</text>
+</svg>

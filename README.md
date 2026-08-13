@@ -1,4 +1,4 @@
-# Travel Ben â€” Netlify
+# Travel Ben — Netlify
 
 Netlify-ready static Next.js version of the Travel Ben website.
 
@@ -27,4 +27,3 @@ The included `netlify.toml` configures these settings automatically.
 
 After Netlify assigns the final domain, set the environment variable
 `NEXT_PUBLIC_SITE_URL` to the full production URL and redeploy.
-
