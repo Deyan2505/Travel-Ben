@@ -13,12 +13,20 @@ const TOUR_PHOTOS = [
   "/spa-pool-panorama.webp",
 ];
 
+const GALLERY_PHOTOS = [
+  { src: "/sofia-synagogue-hero-v2.webp", width: 1920, height: 1080 },
+  { src: "/tour-sofia-vitosha.webp", width: 1200, height: 816 },
+  { src: "/tour-plovdiv-old-town.webp", width: 1200, height: 900 },
+  { src: "/tour-seven-rila-lakes.webp", width: 1200, height: 901 },
+  { src: "/spa-pool-panorama.webp", width: 1600, height: 1200 },
+];
+
 const content = {
   he: {
     dir: "rtl" as const,
     locale: "he",
-    nav: ["טיולים", "למה איתי", "איך זה עובד", "שאלות"],
-    navLinks: ["#tours", "#about", "#process", "#faq"],
+    nav: ["טיולים", "גלריה", "למה איתי", "איך זה עובד", "שאלות"],
+    navLinks: ["#tours", "#gallery", "#about", "#process", "#faq"],
     contact: "דברו איתי",
     eyebrow: "טיולים פרטיים מבולגריה · בעברית",
     title: "בולגריה בדרך שלכם",
@@ -32,6 +40,17 @@ const content = {
     toursTitle: "יום אחד. הרבה יותר מבולגריה.",
     toursIntro:
       "כל טיול יוצא מסופיה ונבנה סביב האנשים שנוסעים — בלי קבוצה זרה, בלי לחץ ובלי מחסום שפה.",
+    galleryKicker: "רגעים מבולגריה",
+    galleryTitle: "גלריה",
+    galleryIntro: "מקומות, נופים ורגעים שמחכים לכם בדרך.",
+    galleryLabels: ["בית הכנסת של סופיה", "סופיה מהר ויטושה", "העיר העתיקה של פלובדיב", "שבעת אגמי רילה", "ספא מול ההרים"],
+    galleryPhotoAlts: [
+      "חזית בית הכנסת של סופיה",
+      "תצפית על סופיה מהר ויטושה",
+      "רחוב מרוצף בעיר העתיקה של פלובדיב",
+      "נוף אווירי של שבעת אגמי רילה",
+      "בריכות ספא חיצוניות מול הרי בולגריה",
+    ],
     tourPhotoAlts: [
       "נוף של סופיה מהר ויטושה",
       "רחוב עתיק בעיר העתיקה של פלובדיב",
@@ -115,8 +134,8 @@ const content = {
   bg: {
     dir: "ltr" as const,
     locale: "bg",
-    nav: ["Турове", "За мен", "Как работи", "Въпроси"],
-    navLinks: ["#tours", "#about", "#process", "#faq"],
+    nav: ["Турове", "Галерия", "За мен", "Как работи", "Въпроси"],
+    navLinks: ["#tours", "#gallery", "#about", "#process", "#faq"],
     contact: "Свържете се",
     eyebrow: "Частни турове от София · на иврит",
     title: "България по вашия начин",
@@ -130,6 +149,17 @@ const content = {
     toursTitle: "Един ден. Много повече България.",
     toursIntro:
       "Всеки тур започва от София и се съобразява с хората в автомобила — без непозната група, без бързане и без езикова бариера.",
+    galleryKicker: "Моменти от България",
+    galleryTitle: "Галерия",
+    galleryIntro: "Места, гледки и моменти, които ви очакват по пътя.",
+    galleryLabels: ["Софийската синагога", "София от Витоша", "Старият Пловдив", "Седемте рилски езера", "СПА с планинска панорама"],
+    galleryPhotoAlts: [
+      "Фасадата на Софийската синагога",
+      "Панорама към София от Витоша",
+      "Калдъръмена улица в Стария град на Пловдив",
+      "Панорама към Седемте рилски езера",
+      "Открити СПА басейни с планинска панорама",
+    ],
     tourPhotoAlts: [
       "Панорама към София от Витоша",
       "Калдъръмена улица в Стария град на Пловдив",
@@ -176,8 +206,8 @@ const content = {
   en: {
     dir: "ltr" as const,
     locale: "en",
-    nav: ["Tours", "Your guide", "How it works", "FAQ"],
-    navLinks: ["#tours", "#about", "#process", "#faq"],
+    nav: ["Tours", "Gallery", "Your guide", "How it works", "FAQ"],
+    navLinks: ["#tours", "#gallery", "#about", "#process", "#faq"],
     contact: "Get in touch",
     eyebrow: "Private tours from Sofia · in Hebrew",
     title: "Bulgaria, your way",
@@ -189,6 +219,17 @@ const content = {
     toursKicker: "Selected routes",
     toursTitle: "One day. Much more Bulgaria.",
     toursIntro: "Every tour starts in Sofia and is shaped around the people travelling — no unfamiliar group, no rush and no language barrier.",
+    galleryKicker: "Moments from Bulgaria",
+    galleryTitle: "Gallery",
+    galleryIntro: "Places, views and moments waiting for you along the way.",
+    galleryLabels: ["Sofia Synagogue", "Sofia from Vitosha", "Plovdiv Old Town", "Seven Rila Lakes", "Mountain-view spa"],
+    galleryPhotoAlts: [
+      "The façade of Sofia Synagogue",
+      "Panoramic view of Sofia from Vitosha Mountain",
+      "Cobblestone street in Plovdiv Old Town",
+      "Panoramic view of the Seven Rila Lakes",
+      "Outdoor spa pools overlooking the Bulgarian mountains",
+    ],
     tourPhotoAlts: [
       "Panoramic view of Sofia from Vitosha Mountain",
       "Cobblestone street in Plovdiv Old Town",
@@ -353,16 +394,33 @@ export default function Home() {
               </article>
             ))}
           </div>
-          <p className="tour-photo-credits">
-            <span>Photos:</span>
-            <a href="https://commons.wikimedia.org/wiki/File:Sofia_seen_from_Vitosha_1.jpg" target="_blank" rel="noreferrer">Sofia — Ivano Giambattista / CC0</a>
-            <a href="https://commons.wikimedia.org/wiki/File:Plovdiv-old_town.jpg" target="_blank" rel="noreferrer">Plovdiv — S kirkova / CC BY-SA 4.0</a>
-            <a href="https://commons.wikimedia.org/wiki/File:Rila_Lakes.jpg" target="_blank" rel="noreferrer">Rila Lakes — Untravelled / CC BY-SA 4.0</a>
-          </p>
           <div className="price-strip">
             <div><span>{copy.priceFrom}</span><strong>{copy.price}</strong><small>{copy.priceNote}</small></div>
             <p>{copy.priceDetails}</p>
             <a href="#contact">{copy.heroPrimary}<span>↗</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section className="section gallery-section" id="gallery">
+        <div className="page-width">
+          <div className="section-heading split-heading gallery-heading">
+            <div><p className="eyebrow">{copy.galleryKicker}</p><h2>{copy.galleryTitle}</h2></div>
+            <p>{copy.galleryIntro}</p>
+          </div>
+          <div className="gallery-grid">
+            {GALLERY_PHOTOS.map((photo, index) => (
+              <figure className={`gallery-item gallery-${index + 1}`} key={photo.src}>
+                <img
+                  src={photo.src}
+                  alt={copy.galleryPhotoAlts[index]}
+                  width={photo.width}
+                  height={photo.height}
+                  loading="lazy"
+                />
+                <figcaption><span>0{index + 1}</span>{copy.galleryLabels[index]}</figcaption>
+              </figure>
+            ))}
           </div>
         </div>
       </section>
@@ -467,3 +525,4 @@ export default function Home() {
     </main>
   );
 }
+
