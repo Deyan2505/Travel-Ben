@@ -6,6 +6,12 @@ type Language = "he" | "bg" | "en";
 type Theme = "light" | "dark";
 
 const PHONE = "359897932889";
+const TOUR_PHOTOS = [
+  "/tour-sofia-vitosha.webp",
+  "/tour-plovdiv-old-town.webp",
+  "/tour-seven-rila-lakes.webp",
+  "/spa-pool-panorama.webp",
+];
 
 const content = {
   he: {
@@ -26,7 +32,12 @@ const content = {
     toursTitle: "יום אחד. הרבה יותר מבולגריה.",
     toursIntro:
       "כל טיול יוצא מסופיה ונבנה סביב האנשים שנוסעים — בלי קבוצה זרה, בלי לחץ ובלי מחסום שפה.",
-    spaPhotoAlt: "בריכות ספא חיצוניות מול נוף הררי בבולגריה",
+    tourPhotoAlts: [
+      "נוף של סופיה מהר ויטושה",
+      "רחוב עתיק בעיר העתיקה של פלובדיב",
+      "נוף של שבעת אגמי רילה",
+      "בריכות ספא חיצוניות מול נוף הררי בבולגריה",
+    ],
     tours: [
       {
         no: "01",
@@ -119,7 +130,12 @@ const content = {
     toursTitle: "Един ден. Много повече България.",
     toursIntro:
       "Всеки тур започва от София и се съобразява с хората в автомобила — без непозната група, без бързане и без езикова бариера.",
-    spaPhotoAlt: "Открити СПА басейни с планинска панорама в България",
+    tourPhotoAlts: [
+      "Панорама към София от Витоша",
+      "Калдъръмена улица в Стария град на Пловдив",
+      "Панорама към Седемте рилски езера",
+      "Открити СПА басейни с планинска панорама в България",
+    ],
     tours: [
       { no: "01", title: "София отблизо", desc: "Историческият център, местни пазари и градски истории с достатъчно време за почивки и снимки.", tags: ["Град и история", "Цял ден", "Гъвкаво"] },
       { no: "02", title: "Пловдив и Старият град", desc: "Цветни улици, пластове история и панорами от хълмовете на един от най-интересните градове на Балканите.", tags: ["Култура", "Архитектура", "Храна"] },
@@ -173,7 +189,12 @@ const content = {
     toursKicker: "Selected routes",
     toursTitle: "One day. Much more Bulgaria.",
     toursIntro: "Every tour starts in Sofia and is shaped around the people travelling — no unfamiliar group, no rush and no language barrier.",
-    spaPhotoAlt: "Outdoor spa pools overlooking the mountains in Bulgaria",
+    tourPhotoAlts: [
+      "Panoramic view of Sofia from Vitosha Mountain",
+      "Cobblestone street in Plovdiv Old Town",
+      "Panoramic view of the Seven Rila Lakes",
+      "Outdoor spa pools overlooking the mountains in Bulgaria",
+    ],
     tours: [
       { no: "01", title: "Sofia up close", desc: "The historic centre, local markets and city stories, with time for breaks, photos and spontaneous stops.", tags: ["City & history", "Full day", "Flexible"] },
       { no: "02", title: "Plovdiv Old Town", desc: "Colourful streets, layers of history and hilltop views in one of the Balkans’ most fascinating cities.", tags: ["Culture", "Architecture", "Food"] },
@@ -316,26 +337,28 @@ export default function Home() {
           </div>
           <div className="tour-grid">
             {copy.tours.map((tour, index) => (
-              <article className={`tour-card tour-${index + 1}${index === 3 ? " tour-photo-card" : ""}`} key={tour.title}>
+              <article className={`tour-card tour-${index + 1} tour-photo-card`} key={tour.title}>
                 <div className="tour-number">{tour.no}</div>
-                {index === 3 ? (
-                  <img
-                    className="tour-card-photo"
-                    src="/spa-pool-panorama.webp"
-                    alt={copy.spaPhotoAlt}
-                    width="1600"
-                    height="1200"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div className="tour-icon" aria-hidden="true">{["⌂", "◫", "⌁", "✦"][index]}</div>
-                )}
+                <img
+                  className="tour-card-photo"
+                  src={TOUR_PHOTOS[index]}
+                  alt={copy.tourPhotoAlts[index]}
+                  width="1200"
+                  height="900"
+                  loading="lazy"
+                />
                 <h3>{tour.title}</h3>
                 <p>{tour.desc}</p>
                 <div className="tag-row">{tour.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
               </article>
             ))}
           </div>
+          <p className="tour-photo-credits">
+            <span>Photos:</span>
+            <a href="https://commons.wikimedia.org/wiki/File:Sofia_seen_from_Vitosha_1.jpg" target="_blank" rel="noreferrer">Sofia — Ivano Giambattista / CC0</a>
+            <a href="https://commons.wikimedia.org/wiki/File:Plovdiv-old_town.jpg" target="_blank" rel="noreferrer">Plovdiv — S kirkova / CC BY-SA 4.0</a>
+            <a href="https://commons.wikimedia.org/wiki/File:Rila_Lakes.jpg" target="_blank" rel="noreferrer">Rila Lakes — Untravelled / CC BY-SA 4.0</a>
+          </p>
           <div className="price-strip">
             <div><span>{copy.priceFrom}</span><strong>{copy.price}</strong><small>{copy.priceNote}</small></div>
             <p>{copy.priceDetails}</p>
