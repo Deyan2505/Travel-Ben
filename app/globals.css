@@ -238,7 +238,18 @@ button, summary, a { -webkit-tap-highlight-color: transparent; }
 .road-art span, .road-art b { position: relative; z-index: 1; font-size: 9px; letter-spacing: 2px; }
 .road-art b { color: var(--gold-light); font-size: 25px; }
 .car-copy h2 { margin: 0 0 12px; font-size: 36px; color: var(--ink); }
-.car-copy p { margin: 0; color: var(--muted); line-height: 1.7; }
+.car-copy p {
+  margin: 0;
+  padding: 14px 18px;
+  border-inline-start: 3px solid var(--gold);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--gold) 9%, transparent);
+  color: var(--ink);
+  font-size: clamp(18px, 1.55vw, 21px);
+  font-weight: 600;
+  line-height: 1.7;
+  text-wrap: pretty;
+}
 .car-card ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .car-card li { display: flex; align-items: center; gap: 9px; font-size: 13px; }
 .car-card li span { color: var(--terra); }
