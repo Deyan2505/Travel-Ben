@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 
-type Language = "he" | "bg" | "en";
+export type Language = "he" | "bg" | "en";
 type Theme = "light" | "dark";
 
 const PHONE = "359897932889";
@@ -13,13 +13,67 @@ const TOUR_PHOTOS = [
   "/spa-pool-panorama.webp",
 ];
 
-const GALLERY_PHOTOS = [
-  { src: "/sofia-synagogue-hero-v2.webp", width: 1920, height: 1080 },
-  { src: "/tour-sofia-vitosha.webp", width: 1200, height: 816 },
-  { src: "/tour-plovdiv-old-town.webp", width: 1200, height: 900 },
-  { src: "/tour-seven-rila-lakes.webp", width: 1200, height: 901 },
-  { src: "/spa-pool-panorama.webp", width: 1600, height: 1200 },
+const TOUR_PHOTOS_SMALL = [
+  "/tour-sofia-vitosha-640.webp",
+  "/tour-plovdiv-old-town-640.webp",
+  "/tour-seven-rila-lakes-640.webp",
+  "/spa-pool-panorama-640.webp",
 ];
+
+const GALLERY_PHOTOS = [
+  { src: "/sofia-synagogue-hero-v2.webp", smallSrc: "/sofia-synagogue-hero-960.webp", smallWidth: 960, width: 1920, height: 1080 },
+  { src: "/tour-sofia-vitosha.webp", smallSrc: "/tour-sofia-vitosha-640.webp", smallWidth: 640, width: 1200, height: 816 },
+  { src: "/tour-plovdiv-old-town.webp", smallSrc: "/tour-plovdiv-old-town-640.webp", smallWidth: 640, width: 1200, height: 900 },
+  { src: "/tour-seven-rila-lakes.webp", smallSrc: "/tour-seven-rila-lakes-640.webp", smallWidth: 640, width: 1200, height: 901 },
+  { src: "/spa-pool-panorama.webp", smallSrc: "/spa-pool-panorama-640.webp", smallWidth: 640, width: 1600, height: 1200 },
+];
+
+const LANGUAGE_ROUTES: Record<Language, string> = { he: "/", bg: "/bg/", en: "/en/" };
+
+const uiText = {
+  he: {
+    home: "דף הבית של Travel Ben",
+    nav: "ניווט ראשי",
+    languages: "בחירת שפה",
+    dark: "מעבר למצב כהה",
+    light: "מעבר למצב בהיר",
+    skip: "דלגו לתוכן הראשי",
+    whatsapp: "פתחו שיחת WhatsApp עם בויאן",
+    contactLabel: "טלפון או אימייל",
+    contactPlaceholder: "כדי שאוכל לחזור אליכם",
+    formHint: "בלחיצה על הכפתור תיפתח שיחה עם בויאן ב-WhatsApp.",
+    opened: "WhatsApp נפתח עם פרטי הבקשה שלכם.",
+    blocked: "לא הצלחנו לפתוח את WhatsApp. אפשר להתקשר או לשלוח אימייל דרך הקישורים שמשמאל.",
+  },
+  bg: {
+    home: "Начало на Travel Ben",
+    nav: "Основна навигация",
+    languages: "Избор на език",
+    dark: "Включване на тъмен режим",
+    light: "Включване на светъл режим",
+    skip: "Към основното съдържание",
+    whatsapp: "Отворете WhatsApp разговор с Боян",
+    contactLabel: "Телефон или имейл",
+    contactPlaceholder: "За да мога да се свържа с вас",
+    formHint: "Бутонът ще отвори WhatsApp с попълнените от вас данни.",
+    opened: "WhatsApp беше отворен с данните от запитването.",
+    blocked: "WhatsApp не се отвори. Можете да използвате телефона или имейла вляво.",
+  },
+  en: {
+    home: "Travel Ben home",
+    nav: "Main navigation",
+    languages: "Language selector",
+    dark: "Switch to dark mode",
+    light: "Switch to light mode",
+    skip: "Skip to main content",
+    whatsapp: "Open a WhatsApp chat with Boyan",
+    contactLabel: "Phone or email",
+    contactPlaceholder: "So I can get back to you",
+    formHint: "The button will open WhatsApp with the details you entered.",
+    opened: "WhatsApp opened with your enquiry details.",
+    blocked: "WhatsApp did not open. Please use the phone or email links on the left.",
+  },
+};
 
 const content = {
   he: {
@@ -274,15 +328,11 @@ const content = {
   },
 };
 
-export default function Home() {
-  const [language, setLanguage] = useState<Language>("he");
+export default function TravelBenPage({ language }: { language: Language }) {
   const [theme, setTheme] = useState<Theme>("light");
+  const [formStatus, setFormStatus] = useState<"idle" | "opened" | "blocked">("idle");
   const copy = content[language];
-
-  useEffect(() => {
-    document.documentElement.lang = copy.locale;
-    document.documentElement.dir = copy.dir;
-  }, [copy.dir, copy.locale]);
+  const ui = uiText[language];
 
   useEffect(() => {
     const activeTheme = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
@@ -304,18 +354,28 @@ export default function Home() {
       `${copy.labels[0]}: ${data.get("name") || "-"}`,
       `${copy.labels[1]}: ${data.get("date") || "-"}`,
       `${copy.labels[2]}: ${data.get("people") || "-"}`,
+      `${ui.contactLabel}: ${data.get("contact") || "-"}`,
       `${copy.labels[3]}: ${data.get("interests") || "-"}`,
     ].join("\n");
-    window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+    const whatsappWindow = window.open("about:blank", "_blank");
+    if (!whatsappWindow) {
+      setFormStatus("blocked");
+      return;
+    }
+    whatsappWindow.opener = null;
+    whatsappWindow.location.href = `https://wa.me/${PHONE}?text=${encodeURIComponent(message)}`;
+    setFormStatus("opened");
   }
 
   return (
-    <main className="site-shell" dir={copy.dir}>
+    <>
+    <a className="skip-link" href="#main-content">{ui.skip}</a>
+    <main className="site-shell" dir={copy.dir} id="main-content">
       <header className="topbar">
-        <a className="brand" href="#top" aria-label="Travel Ben home">
+        <a className="brand" href="#top" aria-label={ui.home}>
           <img className="brand-logo" src="/travel-ben-logo.svg" width="330" height="96" alt="Travel Ben — Private Bulgaria" />
         </a>
-        <nav aria-label="Main navigation">
+        <nav className="main-nav" aria-label={ui.nav}>
           {copy.nav.map((item, index) => <a key={item} href={copy.navLinks[index]}>{item}</a>)}
         </nav>
         <div className="header-actions">
@@ -325,18 +385,18 @@ export default function Home() {
             data-theme={theme}
             onClick={toggleTheme}
             aria-pressed={theme === "dark"}
-            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-            title={theme === "dark" ? "Light mode" : "Dark mode"}
+            aria-label={theme === "dark" ? ui.light : ui.dark}
+            title={theme === "dark" ? ui.light : ui.dark}
           >
             <span className="theme-glyph" aria-hidden="true" />
           </button>
-          <div className="language-switch" aria-label="Language selector">
+          <nav className="language-switch" aria-label={ui.languages}>
             {(["he", "bg", "en"] as Language[]).map((lang) => (
-              <button key={lang} className={language === lang ? "active" : ""} onClick={() => setLanguage(lang)} aria-pressed={language === lang}>
+              <a key={lang} href={LANGUAGE_ROUTES[lang]} hrefLang={lang} lang={lang} className={language === lang ? "active" : ""} aria-current={language === lang ? "page" : undefined}>
                 {lang === "he" ? "עב" : lang.toUpperCase()}
-              </button>
+              </a>
             ))}
-          </div>
+          </nav>
           <a className="small-cta" href="#contact">{copy.contact}</a>
         </div>
       </header>
@@ -345,6 +405,8 @@ export default function Home() {
         <img
           className="hero-image"
           src="/sofia-synagogue-hero-v2.webp"
+          srcSet="/sofia-synagogue-hero-960.webp 960w, /sofia-synagogue-hero-v2.webp 1920w"
+          sizes="100vw"
           alt=""
           width="1920"
           height="1080"
@@ -363,9 +425,9 @@ export default function Home() {
         </div>
         <div className="hero-bottom page-width">
           <div className="trust-badges">
-            {copy.badges.map((badge, index) => <span key={badge}><i>{["א", "⌂", "●", "↝"][index]}</i>{badge}</span>)}
+            {copy.badges.map((badge, index) => <span key={badge}><i aria-hidden="true">{["א", "⌂", "●", "↝"][index]}</i>{badge}</span>)}
           </div>
-          <a className="scroll-cue" href="#tours"><span>{copy.scroll}</span><b>↓</b></a>
+          <a className="scroll-cue" href="#tours"><span>{copy.scroll}</span><b aria-hidden="true">↓</b></a>
         </div>
         <a className="photo-credit" href="https://commons.wikimedia.org/wiki/File:Sofia_Center,_1000_Sofia,_Bulgaria_-_panoramio_(17).jpg" target="_blank" rel="noreferrer">{copy.photo}</a>
       </section>
@@ -383,6 +445,8 @@ export default function Home() {
                 <img
                   className="tour-card-photo"
                   src={TOUR_PHOTOS[index]}
+                  srcSet={`${TOUR_PHOTOS_SMALL[index]} 640w, ${TOUR_PHOTOS[index]} 1200w`}
+                  sizes="(max-width: 980px) calc(100vw - 48px), 280px"
                   alt={copy.tourPhotoAlts[index]}
                   width="1200"
                   height="900"
@@ -397,7 +461,7 @@ export default function Home() {
           <div className="price-strip">
             <div><span>{copy.priceFrom}</span><strong>{copy.price}</strong><small>{copy.priceNote}</small></div>
             <p>{copy.priceDetails}</p>
-            <a href="#contact">{copy.heroPrimary}<span>↗</span></a>
+            <a href="#contact">{copy.heroPrimary}<span aria-hidden="true">↗</span></a>
           </div>
         </div>
       </section>
@@ -413,6 +477,8 @@ export default function Home() {
               <figure className={`gallery-item gallery-${index + 1}`} key={photo.src}>
                 <img
                   src={photo.src}
+                  srcSet={`${photo.smallSrc} ${photo.smallWidth}w, ${photo.src} ${photo.width}w`}
+                  sizes="(max-width: 720px) calc(100vw - 48px), (max-width: 1180px) 50vw, 760px"
                   alt={copy.galleryPhotoAlts[index]}
                   width={photo.width}
                   height={photo.height}
@@ -431,6 +497,8 @@ export default function Home() {
             <img
               className="guide-photo"
               src="/boyan-arie.webp"
+              srcSet="/boyan-arie-700.webp 700w, /boyan-arie.webp 1400w"
+              sizes="(max-width: 980px) calc(100vw - 48px), 430px"
               alt={copy.guidePhotoAlt}
               width="1400"
               height="1400"
@@ -454,7 +522,7 @@ export default function Home() {
         <div className="page-width car-card">
           <div className="road-art" aria-hidden="true"><span>SOFIA</span><i /><b>→</b></div>
           <div className="car-copy"><h2>{copy.carTitle}</h2><p>{copy.carText}</p></div>
-          <ul>{copy.carPoints.map((point) => <li key={point}><span>✓</span>{point}</li>)}</ul>
+          <ul>{copy.carPoints.map((point) => <li key={point}><span aria-hidden="true">✓</span>{point}</li>)}</ul>
         </div>
       </section>
 
@@ -472,7 +540,7 @@ export default function Home() {
           <div className="faq-title"><p className="eyebrow">{copy.faqKicker}</p><h2>{copy.faqTitle}</h2><div className="faq-compass">✣</div></div>
           <div className="faq-list">
             {copy.faqs.map(([question, answer], index) => (
-              <details key={question} open={index === 0}><summary>{question}<span>+</span></summary><p>{answer}</p></details>
+              <details key={question} open={index === 0}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>
             ))}
           </div>
         </div>
@@ -487,21 +555,40 @@ export default function Home() {
             <a className="phone-link" href={`tel:+${PHONE}`}><small>{copy.direct}</small><strong>+359 89 793 2889</strong></a>
             <a className="mail-link" href="mailto:boianarie91@gmail.com">boianarie91@gmail.com</a>
           </div>
-          <form className="inquiry-form" onSubmit={handleSubmit}>
-            <label>{copy.labels[0]}<input name="name" placeholder={copy.placeholders[0]} required /></label>
-            <div className="form-row">
-              <label>{copy.labels[1]}<input name="date" placeholder={copy.placeholders[1]} /></label>
-              <label>{copy.labels[2]}<input name="people" placeholder={copy.placeholders[2]} required /></label>
+          <form className="inquiry-form" onSubmit={handleSubmit} aria-describedby="form-note">
+            <div className="form-field">
+              <label htmlFor="name">{copy.labels[0]}</label>
+              <input id="name" name="name" type="text" autoComplete="name" placeholder={copy.placeholders[0]} required />
             </div>
-            <label>{copy.labels[3]}<textarea name="interests" placeholder={copy.placeholders[3]} rows={3} /></label>
+            <div className="form-row">
+              <div className="form-field">
+                <label htmlFor="date">{copy.labels[1]}</label>
+                <input id="date" name="date" type="date" autoComplete="off" />
+              </div>
+              <div className="form-field">
+                <label htmlFor="people">{copy.labels[2]}</label>
+                <input id="people" name="people" type="number" min="1" max="7" inputMode="numeric" placeholder={copy.placeholders[2]} required />
+              </div>
+            </div>
+            <div className="form-field">
+              <label htmlFor="contact">{ui.contactLabel}</label>
+              <input id="contact" name="contact" type="text" autoComplete="email" placeholder={ui.contactPlaceholder} required />
+            </div>
+            <div className="form-field">
+              <label htmlFor="interests">{copy.labels[3]}</label>
+              <textarea id="interests" name="interests" autoComplete="off" placeholder={copy.placeholders[3]} rows={3} />
+            </div>
             <button className="button button-gold" type="submit">{copy.send}<span aria-hidden="true">↗</span></button>
+            <p id="form-note" className={`form-note ${formStatus === "blocked" ? "is-error" : ""}`} role="status" aria-live="polite">
+              {formStatus === "opened" ? ui.opened : formStatus === "blocked" ? ui.blocked : ui.formHint}
+            </p>
           </form>
         </div>
       </section>
 
       <footer>
         <div className="page-width footer-inner">
-          <a className="brand footer-brand" href="#top" aria-label="Travel Ben home">
+          <a className="brand footer-brand" href="#top" aria-label={ui.home}>
             <img className="brand-logo" src="/travel-ben-logo.svg" width="330" height="96" alt="Travel Ben — Private Bulgaria" />
           </a>
           <p>{copy.footer}</p>
@@ -514,7 +601,7 @@ export default function Home() {
         href={`https://wa.me/${PHONE}`}
         target="_blank"
         rel="noreferrer"
-        aria-label="Open WhatsApp chat with Boyan"
+        aria-label={ui.whatsapp}
         title="WhatsApp"
       >
         <svg viewBox="0 0 32 32" aria-hidden="true">
@@ -523,6 +610,7 @@ export default function Home() {
         </svg>
       </a>
     </main>
+    </>
   );
 }
 
