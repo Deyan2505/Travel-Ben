@@ -137,9 +137,15 @@ const content = {
         tags: ["רוגע", "קניות", "פרטי"],
       },
     ],
-    priceFrom: "מחיר משוער",
-    price: "€60–€75",
-    priceNote: "לאדם · בהתאם למסלול",
+    priceTitle: "טיולי יום פרטיים",
+    priceSubtitle: "מחיר לאדם בהתאם למספר הנוסעים",
+    priceTiers: [
+      ["2 נוסעים", "€80 לאדם"],
+      ["3 נוסעים", "€70 לאדם"],
+      ["4 נוסעים", "€65 לאדם"],
+      ["5–6 נוסעים", "€60 לאדם"],
+      ["7 נוסעים ומעלה", "מחיר לפי בקשה"],
+    ],
     priceDetails: "אוכל, כרטיסי כניסה והוצאות אישיות אינם כלולים.",
     aboutKicker: "המדריך שלכם",
     aboutTitle: "מקומי בבולגריה. מרגיש בבית בעברית.",
@@ -168,7 +174,7 @@ const content = {
     faqKicker: "טוב לדעת",
     faqTitle: "שאלות לפני שיוצאים",
     faqs: [
-      ["המחיר הוא לאדם או לרכב?", "המחיר הוא לאדם ובדרך כלל נע בין 60 ל-75 אירו, בהתאם למסלול."],
+      ["המחיר הוא לאדם או לרכב?", "המחיר הוא לאדם ותלוי במספר הנוסעים — בין €60 ל-€80 לאדם."],
       ["אפשר לשנות את המסלול?", "כן. אפשר לבנות מסלול אישי, לשלב רעיונות ולשנות את הקצב גם במהלך היום."],
       ["מה כלול במחיר?", "הדרכה בעברית ונסיעה ברכב הפרטי. אוכל, כרטיסים והוצאות אישיות משולמים בנפרד."],
       ["איך מאשרים הזמנה?", "לאחר בדיקת זמינות וסיכום המסלול, ההזמנה מאושרת עם פיקדון של 30%."],
@@ -226,9 +232,15 @@ const content = {
       { no: "03", title: "Природа и планини", desc: "Чист въздух, гледки и природни маршрути до 120 км от София според сезона и вашето темпо.", tags: ["Природа", "Средно ходене", "Снимки"] },
       { no: "04", title: "СПА и шопинг", desc: "Спокоен ден с минерални извори, свободно време и пазаруване, с личен транспорт и организация.", tags: ["Релакс", "Шопинг", "Частно"] },
     ],
-    priceFrom: "Ориентировъчна цена",
-    price: "€60–€75",
-    priceNote: "на човек · според маршрута",
+    priceTitle: "Частни еднодневни пътувания",
+    priceSubtitle: "Цена на човек според броя пътници",
+    priceTiers: [
+      ["2 пътници", "80 € на човек"],
+      ["3 пътници", "70 € на човек"],
+      ["4 пътници", "65 € на човек"],
+      ["5–6 пътници", "60 € на човек"],
+      ["Над 6 пътници", "цена по договаряне"],
+    ],
     priceDetails: "Храна, входни билети и лични разходи не са включени.",
     aboutKicker: "Вашият гид",
     aboutTitle: "Местен в България. Естествено общуване на иврит.",
@@ -245,7 +257,7 @@ const content = {
     steps: [["Пишете ми", "Дата, брой хора и какво ви интересува."], ["Правим маршрут", "Получавате лична програма и крайна цена."], ["Потвърждавате", "Депозит от 30% запазва датата."], ["Тръгваме", "Вземане, частен тур и гъвкавост през целия ден."]],
     faqKicker: "Полезно",
     faqTitle: "Въпроси преди пътуването",
-    faqs: [["Цената за човек ли е?", "Да. Обикновено е между 60 и 75 евро на човек според маршрута."], ["Може ли маршрутът да се променя?", "Да. Може да се изгради личен маршрут и темпото да се променя по време на тура."], ["Какво е включено?", "Гид на иврит и транспорт с личния автомобил. Храната, билетите и личните разходи се плащат отделно."], ["Как се потвърждава?", "След проверка на датата и уточняване на маршрута резервацията се потвърждава с 30% депозит."], ["Какви са условията за анулиране?", "При отказ до един ден преди тура депозитът се възстановява. При отказ в последния момент не се възстановява. Закупените билети също не се възстановяват."]],
+    faqs: [["Цената за човек ли е?", "Да. Цената е на човек и зависи от броя пътници — между 60 € и 80 € на човек."], ["Може ли маршрутът да се променя?", "Да. Може да се изгради личен маршрут и темпото да се променя по време на тура."], ["Какво е включено?", "Гид на иврит и транспорт с личния автомобил. Храната, билетите и личните разходи се плащат отделно."], ["Как се потвърждава?", "След проверка на датата и уточняване на маршрута резервацията се потвърждава с 30% депозит."], ["Какви са условията за анулиране?", "При отказ до един ден преди тура депозитът се възстановява. При отказ в последния момент не се възстановява. Закупените билети също не се възстановяват."]],
     ctaKicker: "Турът започва тук",
     ctaTitle: "Разкажете ми каква България искате да видите",
     ctaText: "Изпратете няколко детайла и ще ви отговоря на иврит до 1–2 дни.",
@@ -296,9 +308,15 @@ const content = {
       { no: "03", title: "Nature & mountains", desc: "Fresh air, views and nature destinations within 120 km of Sofia, adapted to the season and your pace.", tags: ["Nature", "Moderate walking", "Photography"] },
       { no: "04", title: "Spa & shopping", desc: "A relaxed day combining mineral springs, free time and shopping with private transport and planning.", tags: ["Relax", "Shopping", "Private"] },
     ],
-    priceFrom: "Estimated price",
-    price: "€60–€75",
-    priceNote: "per person · route dependent",
+    priceTitle: "Private day trips",
+    priceSubtitle: "Price per person, based on group size",
+    priceTiers: [
+      ["2 passengers", "€80 per person"],
+      ["3 passengers", "€70 per person"],
+      ["4 passengers", "€65 per person"],
+      ["5–6 passengers", "€60 per person"],
+      ["7+ passengers", "Price on request"],
+    ],
     priceDetails: "Meals, admission tickets and personal expenses are not included.",
     aboutKicker: "Your guide",
     aboutTitle: "Local in Bulgaria. At home in Hebrew.",
@@ -314,7 +332,7 @@ const content = {
     steps: [["Message me", "Share your date, group size and interests."], ["Build the route", "Receive a personal plan and final price."], ["Confirm", "A 30% deposit secures your date."], ["Set off", "Pickup, a private tour and flexibility all day."]],
     faqKicker: "Good to know",
     faqTitle: "Questions before you go",
-    faqs: [["Is the price per person?", "Yes. It usually ranges from €60 to €75 per person, depending on the route."], ["Can the itinerary change?", "Yes. We can create a personal route and adapt the pace during the tour."], ["What is included?", "Hebrew guidance and transport in the private car. Meals, tickets and personal expenses are paid separately."], ["How do I confirm?", "After availability and the route are agreed, a 30% deposit confirms your booking."], ["What is the cancellation policy?", "The deposit is refundable until one day before the tour. It is non-refundable for last-minute cancellations, as are tickets already purchased."]],
+    faqs: [["Is the price per person?", "Yes. The price is per person and depends on the group size — between €60 and €80 per person."], ["Can the itinerary change?", "Yes. We can create a personal route and adapt the pace during the tour."], ["What is included?", "Hebrew guidance and transport in the private car. Meals, tickets and personal expenses are paid separately."], ["How do I confirm?", "After availability and the route are agreed, a 30% deposit confirms your booking."], ["What is the cancellation policy?", "The deposit is refundable until one day before the tour. It is non-refundable for last-minute cancellations, as are tickets already purchased."]],
     ctaKicker: "Your tour starts here",
     ctaTitle: "Tell me which Bulgaria you want to meet",
     ctaText: "Send a few details and I’ll reply in Hebrew within 1–2 days.",
@@ -459,9 +477,19 @@ export default function TravelBenPage({ language }: { language: Language }) {
             ))}
           </div>
           <div className="price-strip">
-            <div><span>{copy.priceFrom}</span><strong>{copy.price}</strong><small>{copy.priceNote}</small></div>
-            <p>{copy.priceDetails}</p>
-            <a href="#contact">{copy.heroPrimary}<span aria-hidden="true">↗</span></a>
+            <div className="price-strip-top">
+              <div className="price-strip-heading">
+                <h3>{copy.priceTitle}</h3>
+                <p>{copy.priceSubtitle}</p>
+              </div>
+              <a className="price-strip-cta" href="#contact">{copy.heroPrimary}<span aria-hidden="true">↗</span></a>
+            </div>
+            <ul className="price-tiers">
+              {copy.priceTiers.map(([label, value]) => (
+                <li key={label}><span>{label}</span><strong>{value}</strong></li>
+              ))}
+            </ul>
+            <p className="price-note">{copy.priceDetails}</p>
           </div>
         </div>
       </section>
