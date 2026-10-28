@@ -24,7 +24,7 @@ export const languageConfig: Record<Language, { path: string; title: string; des
   },
 };
 
-export const themeScript = `(function(){try{var stored=localStorage.getItem('travel-ben-theme');var theme=stored||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=theme;}catch(e){document.documentElement.dataset.theme='light';}})();`;
+export const themeScript = `(function(){try{var stored=localStorage.getItem('travel-ben-theme');var theme=stored==='light'?'light':'dark';document.documentElement.dataset.theme=theme;}catch(e){document.documentElement.dataset.theme='dark';}})();`;
 
 export function createMetadata(language: Language): Metadata {
   const config = languageConfig[language];
