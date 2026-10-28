@@ -4,6 +4,9 @@ import { FormEvent, useEffect, useState } from "react";
 
 export type Language = "he" | "bg" | "en";
 type Theme = "light" | "dark";
+type Service = "tour" | "transfer";
+type TransferType = "sofia" | "city";
+type Trip = "oneway" | "roundtrip";
 
 const PHONE = "359897932889";
 const TOUR_PHOTOS = [
@@ -79,8 +82,8 @@ const content = {
   he: {
     dir: "rtl" as const,
     locale: "he",
-    nav: ["טיולים", "גלריה", "למה איתי", "איך זה עובד", "שאלות"],
-    navLinks: ["#tours", "#gallery", "#about", "#process", "#faq"],
+    nav: ["טיולים", "הסעות", "גלריה", "למה איתי", "איך זה עובד", "שאלות"],
+    navLinks: ["#tours", "#transfers", "#gallery", "#about", "#process", "#faq"],
     contact: "דברו איתי",
     eyebrow: "טיולים פרטיים מבולגריה · בעברית",
     title: "בולגריה בדרך שלכם",
@@ -147,6 +150,56 @@ const content = {
       ["7 נוסעים ומעלה", "מחיר לפי בקשה"],
     ],
     priceDetails: "אוכל, כרטיסי כניסה והוצאות אישיות אינם כלולים.",
+    transfers: {
+      kicker: "הסעות",
+      title: "משדה התעופה ועד הכתובת שלכם.",
+      intro: "הסעות פרטיות ברכב נוח — משדה התעופה בסופיה אל הכתובת שלכם, ומסופיה אל יעדים נבחרים ברחבי בולגריה.",
+      sofia: {
+        kicker: "סופיה",
+        title: "הסעה משדה התעופה בסופיה",
+        desc: "נוחתים בסופיה ונוסעים ישר אל הכתובת שלכם, עם קבלת פנים שתואמה מראש.",
+        tiersTitle: "מחיר לפי מספר נוסעים",
+        tiers: [
+          ["עד 2 נוסעים", "€25 לאדם"],
+          ["עד 3 נוסעים", "€30 לאדם"],
+          ["עד 4 נוסעים", "€40 לאדם"],
+          ["מעל 4 נוסעים", "מחיר בתיאום"],
+        ],
+        includesTitle: "כלול בשירות",
+        includes: ["איסוף משדה התעופה", "קבלת פנים מתואמת מראש", "רכב נוח", "הסעה עד הכתובת שצוינה"],
+        cta: "בקשו הסעה",
+      },
+      city: {
+        kicker: "בין־עירוני",
+        title: "הסעות בין־עירוניות מסופיה",
+        desc: "נקודת יציאה: סופיה. הסעה פרטית ליעד לפי בחירתכם.",
+        rateLabel: "תעריף",
+        rate: "€1.50",
+        rateUnit: "לכל ק״מ",
+        destinationsTitle: "יעדים",
+        destinations: ["פלובדיב", "בורובץ", "בנסקו", "סאפארבה באניה"],
+        note: "המחיר הסופי מאושר באופן אישי לפני ההזמנה.",
+        oneWay: "התעריף חל על ק״מ המסלול עם הלקוחות בלבד, בלי חיוב על נסיעת החזרה הריקה של הרכב. כל הסעה היא נפרדת: מסופיה לבנסקו, ובהמשך מבנסקו לשדה התעופה בסופיה, הן שתי הסעות, והמחיר הכולל הוא סכום שני המסלולים.",
+        cta: "בקשו הצעת מחיר",
+      },
+      deposit: "פיקדון של 10% מהמחיר הסופי שאושר שומר את ההסעה.",
+    },
+    form: {
+      service: "סוג השירות",
+      serviceOptions: ["טיול יום", "הסעה"],
+      transferType: "סוג ההסעה",
+      transferTypes: ["משדה התעופה בסופיה לכתובת בסופיה", "בין־עירונית מסופיה"],
+      destination: "יעד",
+      destinationPlaceholder: "בחרו יעד",
+      tripType: "סוג הנסיעה",
+      tripTypes: ["כיוון אחד", "הגעה ויציאה (שתי הסעות נפרדות)"],
+      returnDate: "תאריך ההסעה בחזרה",
+      notes: {
+        sofia: ["כתובת בסופיה ופרטי טיסה", "כתובת, מספר טיסה, שעת נחיתה..."],
+        city: ["הערות", "שעה מועדפת, בקשות מיוחדות..."],
+      },
+      message: "שלום בויאן, אשמח לברר לגבי הסעה.",
+    },
     aboutKicker: "המדריך שלכם",
     aboutTitle: "מקומי בבולגריה. מרגיש בבית בעברית.",
     aboutText:
@@ -179,6 +232,7 @@ const content = {
       ["מה כלול במחיר?", "הדרכה בעברית ונסיעה ברכב הפרטי. אוכל, כרטיסים והוצאות אישיות משולמים בנפרד."],
       ["איך מאשרים הזמנה?", "לאחר בדיקת זמינות וסיכום המסלול, ההזמנה מאושרת עם פיקדון של 30%."],
       ["מה קורה במקרה של ביטול?", "ביטול עד יום לפני הטיול מאפשר החזר. בביטול ברגע האחרון הפיקדון אינו מוחזר. כרטיסים שכבר נרכשו אינם ניתנים להחזר."],
+      ["איך עובדות ההסעות וההזמנה שלהן?", "בהסעה משדה התעופה בסופיה המחיר נקבע לפי מספר הנוסעים. בהסעות בין־עירוניות מסופיה התעריף הוא €1.50 לכל ק״מ של המסלול עם הלקוחות (בלי חיוב על נסיעה ריקה חזרה), והמחיר הסופי מאושר באופן אישי לפני ההזמנה. ההזמנה מאושרת בפיקדון של 10% מהמחיר הסופי שאושר."],
     ],
     ctaKicker: "הטיול מתחיל כאן",
     ctaTitle: "ספרו לי איזו בולגריה תרצו לפגוש",
@@ -194,8 +248,8 @@ const content = {
   bg: {
     dir: "ltr" as const,
     locale: "bg",
-    nav: ["Турове", "Галерия", "За мен", "Как работи", "Въпроси"],
-    navLinks: ["#tours", "#gallery", "#about", "#process", "#faq"],
+    nav: ["Турове", "Трансфери", "Галерия", "За мен", "Как работи", "Въпроси"],
+    navLinks: ["#tours", "#transfers", "#gallery", "#about", "#process", "#faq"],
     contact: "Свържете се",
     eyebrow: "Частни турове от София · на иврит",
     title: "България по вашия начин",
@@ -242,6 +296,56 @@ const content = {
       ["Над 6 пътници", "цена по договаряне"],
     ],
     priceDetails: "Храна, входни билети и лични разходи не са включени.",
+    transfers: {
+      kicker: "Трансфери",
+      title: "От летището до вашия адрес.",
+      intro: "Частни трансфери с комфортен автомобил — от летище София до адрес в града и от София до избрани дестинации в България.",
+      sofia: {
+        kicker: "София",
+        title: "Трансфер от летище София",
+        desc: "Кацате в София и пътувате директно до посочения от вас адрес, с предварително уговорено посрещане.",
+        tiersTitle: "Цена според броя пътници",
+        tiers: [
+          ["До 2 пътници", "25 € на човек"],
+          ["До 3 пътници", "30 € на човек"],
+          ["До 4 пътници", "40 € на човек"],
+          ["Над 4 пътници", "по договаряне"],
+        ],
+        includesTitle: "Включено",
+        includes: ["Вземане от летището", "Предварително уговорено посрещане", "Комфортен автомобил", "Трансфер до посочен адрес"],
+        cta: "Заявете трансфер",
+      },
+      city: {
+        kicker: "Междуградски",
+        title: "Междуградски трансфери от София",
+        desc: "Начална точка: София. Частен трансфер до избраната от вас дестинация.",
+        rateLabel: "Тарифа",
+        rate: "1,50 €",
+        rateUnit: "на километър",
+        destinationsTitle: "Дестинации",
+        destinations: ["Пловдив", "Боровец", "Банско", "Сапарева баня"],
+        note: "Крайната цена се потвърждава индивидуално преди резервация.",
+        oneWay: "Тарифата се начислява за километрите на маршрута с клиента — без празния обратен пробег на автомобила. Всеки трансфер е самостоятелен: София → Банско и по-късно Банско → летище София са два трансфера, а общата цена е сборът от двата маршрута.",
+        cta: "Поискайте оферта",
+      },
+      deposit: "Депозит от 10% от потвърдената крайна цена запазва трансфера.",
+    },
+    form: {
+      service: "Вид услуга",
+      serviceOptions: ["Еднодневна екскурзия", "Трансфер"],
+      transferType: "Тип трансфер",
+      transferTypes: ["От летище София до адрес в София", "Междуградски от София"],
+      destination: "Дестинация",
+      destinationPlaceholder: "Изберете дестинация",
+      tripType: "Посока",
+      tripTypes: ["В една посока", "Пристигане и заминаване (два отделни трансфера)"],
+      returnDate: "Дата на обратния трансфер",
+      notes: {
+        sofia: ["Адрес в София и данни за полета", "Адрес, номер на полета, час на кацане..."],
+        city: ["Бележки", "Предпочитан час, специални заявки..."],
+      },
+      message: "Здравейте, Боян. Искам да попитам за трансфер.",
+    },
     aboutKicker: "Вашият гид",
     aboutTitle: "Местен в България. Естествено общуване на иврит.",
     aboutText:
@@ -257,7 +361,7 @@ const content = {
     steps: [["Пишете ми", "Дата, брой хора и какво ви интересува."], ["Правим маршрут", "Получавате лична програма и крайна цена."], ["Потвърждавате", "Депозит от 30% запазва датата."], ["Тръгваме", "Вземане, частен тур и гъвкавост през целия ден."]],
     faqKicker: "Полезно",
     faqTitle: "Въпроси преди пътуването",
-    faqs: [["Цената за човек ли е?", "Да. Цената е на човек и зависи от броя пътници — между 60 € и 80 € на човек."], ["Може ли маршрутът да се променя?", "Да. Може да се изгради личен маршрут и темпото да се променя по време на тура."], ["Какво е включено?", "Гид на иврит и транспорт с личния автомобил. Храната, билетите и личните разходи се плащат отделно."], ["Как се потвърждава?", "След проверка на датата и уточняване на маршрута резервацията се потвърждава с 30% депозит."], ["Какви са условията за анулиране?", "При отказ до един ден преди тура депозитът се възстановява. При отказ в последния момент не се възстановява. Закупените билети също не се възстановяват."]],
+    faqs: [["Цената за човек ли е?", "Да. Цената е на човек и зависи от броя пътници — между 60 € и 80 € на човек."], ["Може ли маршрутът да се променя?", "Да. Може да се изгради личен маршрут и темпото да се променя по време на тура."], ["Какво е включено?", "Гид на иврит и транспорт с личния автомобил. Храната, билетите и личните разходи се плащат отделно."], ["Как се потвърждава?", "След проверка на датата и уточняване на маршрута резервацията се потвърждава с 30% депозит."], ["Какви са условията за анулиране?", "При отказ до един ден преди тура депозитът се възстановява. При отказ в последния момент не се възстановява. Закупените билети също не се възстановяват."], ["Как работят трансферите и резервацията им?", "При трансфер от летище София цената зависи от броя на пътниците. При междуградски трансфери от София тарифата е 1,50 € на километър от маршрута с клиента (без празния обратен пробег), а крайната цена се потвърждава индивидуално преди резервация. Резервацията се потвърждава с депозит от 10% от потвърдената крайна цена."]],
     ctaKicker: "Турът започва тук",
     ctaTitle: "Разкажете ми каква България искате да видите",
     ctaText: "Изпратете няколко детайла и ще ви отговоря на иврит до 1–2 дни.",
@@ -272,8 +376,8 @@ const content = {
   en: {
     dir: "ltr" as const,
     locale: "en",
-    nav: ["Tours", "Gallery", "Your guide", "How it works", "FAQ"],
-    navLinks: ["#tours", "#gallery", "#about", "#process", "#faq"],
+    nav: ["Tours", "Transfers", "Gallery", "Your guide", "How it works", "FAQ"],
+    navLinks: ["#tours", "#transfers", "#gallery", "#about", "#process", "#faq"],
     contact: "Get in touch",
     eyebrow: "Private tours from Sofia · in Hebrew",
     title: "Bulgaria, your way",
@@ -318,6 +422,56 @@ const content = {
       ["7+ passengers", "Price on request"],
     ],
     priceDetails: "Meals, admission tickets and personal expenses are not included.",
+    transfers: {
+      kicker: "Transfers",
+      title: "From the airport to your address.",
+      intro: "Private transfers in a comfortable car — from Sofia Airport to an address in the city, and from Sofia to selected destinations across Bulgaria.",
+      sofia: {
+        kicker: "Sofia",
+        title: "Sofia Airport transfer",
+        desc: "Land in Sofia and travel straight to your address, with a pre-arranged meeting at arrival.",
+        tiersTitle: "Price by group size",
+        tiers: [
+          ["Up to 2 passengers", "€25 per person"],
+          ["Up to 3 passengers", "€30 per person"],
+          ["Up to 4 passengers", "€40 per person"],
+          ["Over 4 passengers", "By arrangement"],
+        ],
+        includesTitle: "Included",
+        includes: ["Airport pickup", "Pre-arranged meeting", "Comfortable car", "Transfer to your address"],
+        cta: "Request a transfer",
+      },
+      city: {
+        kicker: "Intercity",
+        title: "Intercity transfers from Sofia",
+        desc: "Starting point: Sofia. A private transfer to the destination of your choice.",
+        rateLabel: "Rate",
+        rate: "€1.50",
+        rateUnit: "per kilometre",
+        destinationsTitle: "Destinations",
+        destinations: ["Plovdiv", "Borovets", "Bansko", "Sapareva Banya"],
+        note: "The final price is confirmed individually before booking.",
+        oneWay: "The rate applies to the kilometres of the route driven with you — the car’s empty return is not charged. Each transfer stands alone: Sofia → Bansko and, later, Bansko → Sofia Airport are two transfers, and the total is the sum of both routes.",
+        cta: "Request a quote",
+      },
+      deposit: "A 10% deposit on the confirmed final price secures the transfer.",
+    },
+    form: {
+      service: "Service type",
+      serviceOptions: ["Day trip", "Transfer"],
+      transferType: "Transfer type",
+      transferTypes: ["Sofia Airport to an address in Sofia", "Intercity from Sofia"],
+      destination: "Destination",
+      destinationPlaceholder: "Choose a destination",
+      tripType: "Trip",
+      tripTypes: ["One way", "Arrival and departure (two separate transfers)"],
+      returnDate: "Return transfer date",
+      notes: {
+        sofia: ["Address in Sofia and flight details", "Address, flight number, landing time..."],
+        city: ["Notes", "Preferred time, special requests..."],
+      },
+      message: "Hello Boyan, I would like to enquire about a transfer.",
+    },
     aboutKicker: "Your guide",
     aboutTitle: "Local in Bulgaria. At home in Hebrew.",
     aboutText: "I’m Boyan Arie. I have lived in Israel, speak excellent Hebrew and understand the pace, mindset and needs of Israeli travellers. My goal is simple: help you experience Bulgaria comfortably and in good company.",
@@ -332,7 +486,7 @@ const content = {
     steps: [["Message me", "Share your date, group size and interests."], ["Build the route", "Receive a personal plan and final price."], ["Confirm", "A 30% deposit secures your date."], ["Set off", "Pickup, a private tour and flexibility all day."]],
     faqKicker: "Good to know",
     faqTitle: "Questions before you go",
-    faqs: [["Is the price per person?", "Yes. The price is per person and depends on the group size — between €60 and €80 per person."], ["Can the itinerary change?", "Yes. We can create a personal route and adapt the pace during the tour."], ["What is included?", "Hebrew guidance and transport in the private car. Meals, tickets and personal expenses are paid separately."], ["How do I confirm?", "After availability and the route are agreed, a 30% deposit confirms your booking."], ["What is the cancellation policy?", "The deposit is refundable until one day before the tour. It is non-refundable for last-minute cancellations, as are tickets already purchased."]],
+    faqs: [["Is the price per person?", "Yes. The price is per person and depends on the group size — between €60 and €80 per person."], ["Can the itinerary change?", "Yes. We can create a personal route and adapt the pace during the tour."], ["What is included?", "Hebrew guidance and transport in the private car. Meals, tickets and personal expenses are paid separately."], ["How do I confirm?", "After availability and the route are agreed, a 30% deposit confirms your booking."], ["What is the cancellation policy?", "The deposit is refundable until one day before the tour. It is non-refundable for last-minute cancellations, as are tickets already purchased."], ["How do transfers and their booking work?", "For Sofia Airport transfers the price depends on the number of passengers. For intercity transfers from Sofia the rate is €1.50 per kilometre of the route with you (no charge for the empty return), and the final price is confirmed individually before booking. A 10% deposit on the confirmed final price secures the booking."]],
     ctaKicker: "Your tour starts here",
     ctaTitle: "Tell me which Bulgaria you want to meet",
     ctaText: "Send a few details and I’ll reply in Hebrew within 1–2 days.",
@@ -349,8 +503,21 @@ const content = {
 export default function TravelBenPage({ language }: { language: Language }) {
   const [theme, setTheme] = useState<Theme>("light");
   const [formStatus, setFormStatus] = useState<"idle" | "opened" | "blocked">("idle");
+  const [service, setService] = useState<Service>("tour");
+  const [transferType, setTransferType] = useState<TransferType>("sofia");
+  const [trip, setTrip] = useState<Trip>("oneway");
   const copy = content[language];
   const ui = uiText[language];
+  const tr = copy.transfers;
+  const fm = copy.form;
+  const isTransfer = service === "transfer";
+  const notes = fm.notes[transferType];
+  const isRoundTrip = isTransfer && transferType === "city" && trip === "roundtrip";
+
+  function pickTransfer(type: TransferType) {
+    setService("transfer");
+    setTransferType(type);
+  }
 
   useEffect(() => {
     const activeTheme = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
@@ -367,13 +534,27 @@ export default function TravelBenPage({ language }: { language: Language }) {
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const transferLines = isTransfer
+      ? [
+          `${fm.service}: ${fm.serviceOptions[1]}`,
+          `${fm.transferType}: ${fm.transferTypes[transferType === "sofia" ? 0 : 1]}`,
+          ...(transferType === "city"
+            ? [
+                `${fm.destination}: ${data.get("destination") || "-"}`,
+                `${fm.tripType}: ${fm.tripTypes[trip === "oneway" ? 0 : 1]}`,
+                ...(isRoundTrip ? [`${fm.returnDate}: ${data.get("returnDate") || "-"}`] : []),
+              ]
+            : []),
+        ]
+      : [];
     const message = [
-      copy.formMessage,
+      isTransfer ? fm.message : copy.formMessage,
+      ...transferLines,
       `${copy.labels[0]}: ${data.get("name") || "-"}`,
       `${copy.labels[1]}: ${data.get("date") || "-"}`,
       `${copy.labels[2]}: ${data.get("people") || "-"}`,
       `${ui.contactLabel}: ${data.get("contact") || "-"}`,
-      `${copy.labels[3]}: ${data.get("interests") || "-"}`,
+      `${isTransfer ? notes[0] : copy.labels[3]}: ${data.get("interests") || "-"}`,
     ].join("\n");
     const whatsappWindow = window.open("about:blank", "_blank");
     if (!whatsappWindow) {
@@ -494,6 +675,49 @@ export default function TravelBenPage({ language }: { language: Language }) {
         </div>
       </section>
 
+      <section className="section transfers-section" id="transfers">
+        <div className="page-width">
+          <div className="section-heading split-heading">
+            <div><p className="eyebrow">{tr.kicker}</p><h2>{tr.title}</h2></div>
+            <p>{tr.intro}</p>
+          </div>
+          <div className="transfer-grid">
+            <article className="transfer-card transfer-sofia">
+              <p className="eyebrow">{tr.sofia.kicker}</p>
+              <h3>{tr.sofia.title}</h3>
+              <p className="transfer-desc">{tr.sofia.desc}</p>
+              <h4>{tr.sofia.tiersTitle}</h4>
+              <ul className="transfer-tiers">
+                {tr.sofia.tiers.map(([label, value]) => <li key={label}><span>{label}</span><strong>{value}</strong></li>)}
+              </ul>
+              <h4>{tr.sofia.includesTitle}</h4>
+              <ul className="transfer-includes">
+                {tr.sofia.includes.map((item) => <li key={item}><span aria-hidden="true">✓</span>{item}</li>)}
+              </ul>
+              <a className="button button-gold" href="#contact" onClick={() => pickTransfer("sofia")}>{tr.sofia.cta}<span aria-hidden="true">↗</span></a>
+            </article>
+            <article className="transfer-card transfer-city">
+              <p className="eyebrow light">{tr.city.kicker}</p>
+              <h3>{tr.city.title}</h3>
+              <p className="transfer-desc">{tr.city.desc}</p>
+              <div className="transfer-rate">
+                <small>{tr.city.rateLabel}</small>
+                <strong dir="ltr">{tr.city.rate}</strong>
+                <span>{tr.city.rateUnit}</span>
+              </div>
+              <h4>{tr.city.destinationsTitle}</h4>
+              <ul className="transfer-destinations">
+                {tr.city.destinations.map((place) => <li key={place}>{place}</li>)}
+              </ul>
+              <p className="transfer-note">{tr.city.note}</p>
+              <p className="transfer-note transfer-oneway">{tr.city.oneWay}</p>
+              <a className="button button-gold" href="#contact" onClick={() => pickTransfer("city")}>{tr.city.cta}<span aria-hidden="true">↗</span></a>
+            </article>
+          </div>
+          <p className="transfer-deposit">{tr.deposit}</p>
+        </div>
+      </section>
+
       <section className="section gallery-section" id="gallery">
         <div className="page-width">
           <div className="section-heading split-heading gallery-heading">
@@ -585,6 +809,50 @@ export default function TravelBenPage({ language }: { language: Language }) {
           </div>
           <form className="inquiry-form" onSubmit={handleSubmit} aria-describedby="form-note">
             <div className="form-field">
+              <label htmlFor="service">{fm.service}</label>
+              <select id="service" name="service" value={service} onChange={(event) => setService(event.target.value as Service)}>
+                <option value="tour">{fm.serviceOptions[0]}</option>
+                <option value="transfer">{fm.serviceOptions[1]}</option>
+              </select>
+            </div>
+            {isTransfer && (
+              <div className="form-row">
+                <div className="form-field">
+                  <label htmlFor="transferType">{fm.transferType}</label>
+                  <select id="transferType" name="transferType" value={transferType} onChange={(event) => setTransferType(event.target.value as TransferType)}>
+                    <option value="sofia">{fm.transferTypes[0]}</option>
+                    <option value="city">{fm.transferTypes[1]}</option>
+                  </select>
+                </div>
+                {transferType === "city" && (
+                  <div className="form-field">
+                    <label htmlFor="destination">{fm.destination}</label>
+                    <select id="destination" name="destination" defaultValue="" required>
+                      <option value="" disabled>{fm.destinationPlaceholder}</option>
+                      {tr.city.destinations.map((place) => <option key={place} value={place}>{place}</option>)}
+                    </select>
+                  </div>
+                )}
+              </div>
+            )}
+            {isTransfer && transferType === "city" && (
+              <div className="form-row">
+                <div className="form-field">
+                  <label htmlFor="tripType">{fm.tripType}</label>
+                  <select id="tripType" name="tripType" value={trip} onChange={(event) => setTrip(event.target.value as Trip)}>
+                    <option value="oneway">{fm.tripTypes[0]}</option>
+                    <option value="roundtrip">{fm.tripTypes[1]}</option>
+                  </select>
+                </div>
+                {isRoundTrip && (
+                  <div className="form-field">
+                    <label htmlFor="returnDate">{fm.returnDate}</label>
+                    <input id="returnDate" name="returnDate" type="date" autoComplete="off" required />
+                  </div>
+                )}
+              </div>
+            )}
+            <div className="form-field">
               <label htmlFor="name">{copy.labels[0]}</label>
               <input id="name" name="name" type="text" autoComplete="name" placeholder={copy.placeholders[0]} required />
             </div>
@@ -603,8 +871,8 @@ export default function TravelBenPage({ language }: { language: Language }) {
               <input id="contact" name="contact" type="text" autoComplete="email" placeholder={ui.contactPlaceholder} required />
             </div>
             <div className="form-field">
-              <label htmlFor="interests">{copy.labels[3]}</label>
-              <textarea id="interests" name="interests" autoComplete="off" placeholder={copy.placeholders[3]} rows={3} />
+              <label htmlFor="interests">{isTransfer ? notes[0] : copy.labels[3]}</label>
+              <textarea id="interests" name="interests" autoComplete="off" placeholder={isTransfer ? notes[1] : copy.placeholders[3]} rows={3} />
             </div>
             <button className="button button-gold" type="submit">{copy.send}<span aria-hidden="true">↗</span></button>
             <p id="form-note" className={`form-note ${formStatus === "blocked" ? "is-error" : ""}`} role="status" aria-live="polite">

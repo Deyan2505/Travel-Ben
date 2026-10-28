@@ -7,19 +7,19 @@ export const languageConfig: Record<Language, { path: string; title: string; des
   he: {
     path: "/",
     title: "Travel Ben | בולגריה בדרך שלכם",
-    description: "טיולים פרטיים בבולגריה עם בויאן אריה — מדריך דובר עברית, רכב נוח ומסלול אישי בקצב שלכם.",
+    description: "טיולים פרטיים והסעות בבולגריה עם בויאן אריה — מדריך דובר עברית, רכב נוח, הסעות משדה התעופה בסופיה והסעות בין־עירוניות.",
     ogLocale: "he_IL",
   },
   bg: {
     path: "/bg/",
     title: "Travel Ben | България по вашия начин",
-    description: "Частни турове из България с Боян Арие — гид, говорещ иврит, комфортен автомобил и персонален маршрут.",
+    description: "Частни турове и трансфери из България с Боян Арие — гид на иврит, комфортен автомобил, трансфер от летище София и междуградски трансфери.",
     ogLocale: "bg_BG",
   },
   en: {
     path: "/en/",
     title: "Travel Ben | Bulgaria Your Way",
-    description: "Private tours across Bulgaria with Boyan Arie — a Hebrew-speaking guide, a comfortable car and a flexible personal itinerary.",
+    description: "Private tours and transfers across Bulgaria with Boyan Arie — a Hebrew-speaking guide, a comfortable car, Sofia Airport transfers and intercity rides from Sofia.",
     ogLocale: "en_US",
   },
 };
@@ -85,6 +85,19 @@ export function structuredData(language: Language) {
     areaServed: { "@type": "Country", name: "Bulgaria" },
     address: { "@type": "PostalAddress", addressLocality: "Sofia", addressCountry: "BG" },
     availableLanguage: ["Hebrew", "Bulgarian", "English"],
+    makesOffer: [
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Private day tours from Sofia" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Sofia Airport transfer to an address in Sofia" } },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Intercity transfers from Sofia",
+          areaServed: ["Plovdiv", "Borovets", "Bansko", "Sapareva Banya"].map((name) => ({ "@type": "City", name })),
+        },
+        priceSpecification: { "@type": "UnitPriceSpecification", price: 1.5, priceCurrency: "EUR", unitCode: "KMT" },
+      },
+    ],
   };
 }
 

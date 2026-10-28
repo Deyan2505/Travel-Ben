@@ -53,7 +53,8 @@ button, summary, a { -webkit-tap-highlight-color: transparent; }
 }
 .brand { display: inline-flex; align-items: center; width: max-content; direction: ltr; }
 .brand-logo { display: block; width: 222px; height: auto; }
-.topbar .main-nav { display: flex; gap: 32px; direction: rtl; }
+.topbar .main-nav { display: flex; gap: 28px; }
+[dir="rtl"] .topbar .main-nav { direction: rtl; }
 .topbar .main-nav a { min-height: 44px; display: inline-flex; align-items: center; font-size: 14px; opacity: .82; transition: opacity .2s ease; }
 .topbar .main-nav a:hover { opacity: 1; }
 .header-actions { display: flex; align-items: center; justify-content: flex-end; gap: 18px; }
@@ -140,6 +141,37 @@ button, summary, a { -webkit-tap-highlight-color: transparent; }
 .price-tiers span { font-size: 11px; text-transform: uppercase; letter-spacing: 1.1px; color: rgba(255,255,255,.64); }
 .price-tiers strong { font-family: Georgia, serif; font-size: 19px; font-weight: 500; color: var(--gold-light); }
 .price-note { margin: 0; font-size: 13px; color: rgba(255,255,255,.64); }
+
+.transfers-section { padding-top: 0; }
+.transfers-section > .page-width { padding-top: 72px; border-top: 1px solid var(--line); }
+.transfer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.transfer-card { display: flex; flex-direction: column; gap: 18px; padding: 34px; border-radius: var(--radius); }
+.transfer-card .eyebrow { margin: 0; }
+.transfer-card h3 { margin: 0; font-family: Georgia, serif; font-size: 30px; font-weight: 500; line-height: 1.1; }
+.transfer-card h4 { margin: 6px 0 -6px; font-size: 11px; font-weight: 800; letter-spacing: 1.1px; text-transform: uppercase; opacity: .64; }
+.transfer-card ul { list-style: none; margin: 0; padding: 0; }
+.transfer-card .button { align-self: flex-start; margin-top: auto; }
+.transfer-desc { margin: 0; font-size: 15px; line-height: 1.65; }
+.transfer-sofia { background: var(--cream); border: 1px solid var(--line); color: var(--text); }
+.transfer-sofia h3 { color: var(--ink); }
+.transfer-tiers li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.transfer-tiers span { font-size: 14px; color: var(--muted); }
+.transfer-tiers strong { font-family: Georgia, serif; font-size: 19px; font-weight: 500; color: var(--ink); }
+.transfer-includes { display: grid; gap: 10px; }
+.transfer-includes li { display: flex; align-items: center; gap: 9px; font-size: 14px; }
+.transfer-includes li span { color: var(--terra); }
+.transfer-city { background: var(--forest); color: white; }
+.transfer-city h3 { color: white; }
+.transfer-city .transfer-desc, .transfer-note { color: rgba(255,255,255,.72); }
+.transfer-rate { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 18px 0; border-block: 1px solid rgba(255,255,255,.14); }
+.transfer-rate small { flex-basis: 100%; font-size: 11px; font-weight: 800; letter-spacing: 1.1px; text-transform: uppercase; color: rgba(255,255,255,.64); }
+.transfer-rate strong { font-family: Georgia, serif; font-size: 52px; font-weight: 500; line-height: 1; color: var(--gold-light); }
+.transfer-rate span { font-size: 15px; color: rgba(255,255,255,.8); }
+.transfer-destinations { display: flex; flex-wrap: wrap; gap: 8px; }
+.transfer-destinations li { padding: 8px 14px; border: 1px solid rgba(255,255,255,.32); border-radius: 999px; font-size: 14px; }
+.transfer-note { margin: 0; font-size: 14px; line-height: 1.6; }
+.transfer-oneway { padding-inline-start: 14px; border-inline-start: 2px solid var(--gold); }
+.transfer-deposit { margin: 22px 0 0; padding: 14px 18px; border-inline-start: 3px solid var(--gold); border-radius: 12px; background: color-mix(in srgb, var(--gold) 9%, transparent); color: var(--ink); font-size: clamp(16px, 1.4vw, 18px); font-weight: 600; line-height: 1.7; }
 
 .gallery-section { background: var(--cream); }
 .gallery-heading > p { color: var(--text); font-size: clamp(19px, 2vw, 23px); font-weight: 500; line-height: 1.6; text-wrap: balance; }
@@ -292,9 +324,10 @@ button, summary, a { -webkit-tap-highlight-color: transparent; }
 .inquiry-form { background: var(--paper); color: var(--text); padding: 34px; border-radius: var(--radius); display: grid; gap: 20px; }
 :root[data-theme="dark"] .inquiry-form { border: 1px solid var(--line); box-shadow: 0 24px 70px rgba(0,0,0,.22); }
 .inquiry-form label { font-size: 13px; font-weight: 700; color: var(--ink); }
-.inquiry-form input, .inquiry-form textarea { width: 100%; min-height: 48px; border: 0; border-bottom: 1px solid var(--line); background: transparent; border-radius: 0; padding: 12px 0; outline: none; color: var(--text); resize: vertical; }
+.inquiry-form input, .inquiry-form textarea, .inquiry-form select { width: 100%; min-height: 48px; border: 0; border-bottom: 1px solid var(--line); background: transparent; border-radius: 0; padding: 12px 0; outline: none; color: var(--text); resize: vertical; }
 .inquiry-form textarea { min-height: 96px; }
-.inquiry-form input:focus, .inquiry-form textarea:focus { border-color: var(--terra); }
+.inquiry-form input:focus, .inquiry-form textarea:focus, .inquiry-form select:focus { border-color: var(--terra); }
+.inquiry-form select option { background: var(--paper); color: var(--text); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
 .form-field { display: grid; gap: 8px; }
 .inquiry-form .button { justify-self: start; margin-top: 5px; border: 0; }
@@ -351,6 +384,12 @@ footer { background: #091f1b; color: white; padding: 35px 0; }
   .tour-card { min-height: 330px; }
   .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 260px; }
   .gallery-1, .gallery-2, .gallery-3, .gallery-4, .gallery-5 { grid-column: auto; grid-row: auto; }
+  .transfers-section > .page-width { padding-top: 48px; }
+  .transfer-grid { grid-template-columns: 1fr; }
+  .transfer-card { padding: 24px; }
+  .transfer-card h3 { font-size: 26px; }
+  .transfer-card .button { align-self: stretch; }
+  .transfer-rate strong { font-size: 44px; }
   .price-strip { padding: 22px; gap: 16px; }
   .price-strip-top { flex-direction: column; align-items: stretch; gap: 16px; }
   .price-strip-cta { justify-content: center; }
